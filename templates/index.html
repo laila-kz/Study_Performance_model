@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictions</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #a9d4ad;
+        padding: 20px;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 30px 25px;
+        border-radius: 12px;
+        max-width: 450px;
+        margin: 40px auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    input[type="number"]:focus {
+        border-color: #888;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .result h2 {
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 18px;
+    }
+
+    .predicted-grade {
+        font-size: 28px;
+        font-weight: bold;
+        color: #4CAF50;
+        margin: 8px 0;
+    }
+
+    .pass {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .fail {
+        color: #d9534f;
+        font-weight: bold;
+    }
+
+    .error {
+        background-color: #ffe5e5;
+        color: #a94442;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 15px;
+        border: 1px solid #f5c6cb;
+    }
+
+    .info-text {
+        font-size: 12px;
+        color: #777;
+        margin-top: 5px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Student Performance Predictor</h1>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="study_time">Study Time (hours/week):</label>
+                <input type="number" id="study_time" name="study_time" step="0.1" min="0" required>
+                <div class="info-text">Enter average weekly study hours</div>
+            </div>
+
+            <div class="form-group">
+                <label for="absences">Absences:</label>
+                <input type="number" id="absences" name="absences" step="1" min="0" required>
+                <div class="info-text">Total number of absences</div>
+            </div>
+
+            <div class="form-group">
+                <label for="G1">G1 (First Period Grade):</label>
+                <input type="number" id="G1" name="G1" step="0.1" min="0" max="20" required>
+                <div class="info-text">Grade scale: 0-20</div>
+            </div>
+
+            <div class="form-group">
+                <label for="G2">G2 (Second Period Grade):</label>
+                <input type="number" id="G2" name="G2" step="0.1" min="0" max="20" required>
+                <div class="info-text">Grade scale: 0-20</div>
+            </div>
+
+            <button type="submit">🎯 Predict Final Grade</button>
+        </form>
+
+        {% if grade is not none %}
+            <div class="result">
+                <h2>Prediction Results</h2>
+                <div class="predicted-grade">{{ grade | round(2) }}</div>
+                <div class="{% if result == 'Pass' %}pass{% else %}fail{% endif %}">
+                    {{ result }}{% if result == 'Pass' %} ✓{% else %} ✗{% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="error">
+                <strong>⚠️ Error:</strong> {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
